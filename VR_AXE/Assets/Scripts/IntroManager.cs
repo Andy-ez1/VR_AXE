@@ -43,11 +43,7 @@ public class IntroManager : MonoBehaviour
             tvVideo.Stop();
 
         SetAlpha(1);
-        //StartCoroutine(WakingUp());
-        
-        SetMovement(true);
-        if (gameTimer != null)
-            gameTimer.StartTimer();
+        StartCoroutine(WakingUp());
     }
 
     IEnumerator WakingUp()

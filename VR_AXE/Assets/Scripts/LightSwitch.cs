@@ -4,16 +4,20 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 
 public class LightSwitch : MonoBehaviour
 {
-    [Header("Slēdža svira (animācija)")]
-    public Transform leverSwitch;          // Kustīgā svira
-    public Vector3 onRotation = new Vector3(180, 0, 0);   // Pozīcija ieslēgts
-    public Vector3 offRotation = new Vector3(0, 0, 0);   // Pozīcija izslēgts
+    [Header("Slēdža svira")]
+    public Transform leverSwitch;
+    public Vector3 onRotation = new Vector3(-30, 0, 0);
+    public Vector3 offRotation = new Vector3(30, 0, 0);
 
     [Header("Ventilators")]
     public CeilingFan ceilingFan;
 
     [Header("Taimeris")]
     public EscapeTimer gameTimer;
+
+    [Header("Villain Audio")]
+    public AudioSource villainAudio;   // Villain balss
+    private bool villainSpoke = false; // Vai jau runāja
 
     [Header("Haptika")]
     public float hapticAmplitude = 0.6f;
@@ -30,7 +34,6 @@ public class LightSwitch : MonoBehaviour
 
     void Start()
     {
-        // Sākuma pozīcija - izslēgts
         if (leverSwitch != null)
             leverSwitch.localEulerAngles = offRotation;
     }
@@ -39,22 +42,25 @@ public class LightSwitch : MonoBehaviour
     {
         isOn = !isOn;
 
-        // Animē sviru
         if (leverSwitch != null)
             leverSwitch.localEulerAngles = isOn ? onRotation : offRotation;
 
-        // Ventilators + gaisma
         if (ceilingFan != null)
         {
             if (isOn) ceilingFan.TurnOn();
             else ceilingFan.TurnOff();
         }
 
-        // Taimera ātrums
         if (gameTimer != null)
             gameTimer.SetLightsOn(isOn);
 
-        // Haptika
+        // Villain runā TIKAI pirmo reizi kad ieslēdz gaismu
+        if (isOn && !villainSpoke && villainAudio != null)
+        {
+            villainAudio.Play();
+            villainSpoke = true;
+        }
+
         SendHaptics(args.interactorObject);
     }
 

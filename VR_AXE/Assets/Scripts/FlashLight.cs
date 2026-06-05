@@ -7,6 +7,9 @@ public class Flashlight : MonoBehaviour
     [Header("Gaisma")]
     public Light flashlightBeam;
 
+    [Header("Skaņa")]
+    public AudioSource clickSound;   // Klikšķa skaņa
+
     [Header("Haptika")]
     public float hapticAmplitude = 0.5f;
     public float hapticDuration = 0.1f;
@@ -47,6 +50,10 @@ public class Flashlight : MonoBehaviour
         isOn = !isOn;
         if (flashlightBeam != null)
             flashlightBeam.enabled = isOn;
+
+        // Klikšķa skaņa
+        if (clickSound != null)
+            clickSound.Play();
 
         SendHaptics(args.interactorObject);
     }

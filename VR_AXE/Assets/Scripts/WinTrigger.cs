@@ -10,6 +10,9 @@ public class WinTrigger : MonoBehaviour
     [Header("Audio")]
     public AudioSource winMusic;      // Uzvaras mūzika
 
+    [Header("Disco")]
+    public DiscoLights discoLights;   // Disko efekts
+
     [Header("Taimeris (apstāties)")]
     public EscapeTimer gameTimer;
 
@@ -36,9 +39,13 @@ public class WinTrigger : MonoBehaviour
             if (winMusic != null)
                 winMusic.Play();
 
-            // Parāda win UI (teksts + pogas)
+            // Win UI (teksts + pogas)
             if (winScreen != null)
                 winScreen.SetActive(true);
+
+            // Disko ieslēdzas
+            if (discoLights != null)
+                discoLights.StartDisco();
         }
     }
 }
